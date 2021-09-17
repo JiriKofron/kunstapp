@@ -1,9 +1,13 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <button @click="logOut">Log out</button>
+    </div>
+    <router-view />
   </div>
-  <router-view/>
 </template>
 
 <style lang="scss">
@@ -28,3 +32,23 @@
   }
 }
 </style>
+
+<script>
+import { mapActions } from 'vuex';
+export default {
+  name: 'App',
+  data() {
+    return {};
+  },
+  mounted() {
+    this.authAction();
+  },
+  methods: {
+    ...mapActions(['logOutAction']),
+    ...mapActions(['authAction']),
+    logOut() {
+      this.logOutAction();
+    },
+  },
+};
+</script>
