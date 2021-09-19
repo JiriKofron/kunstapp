@@ -3,8 +3,11 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link> |
-      <button @click="logOut">Log out</button>
+      <span v-if="isUserAuth"
+        ><router-link to="/dashboard">Dashboard</router-link> |
+        <button @click="logOut">Log out</button>
+        <p>{{ getUser.email }}</p>
+      </span>
     </div>
     <router-view />
   </div>
@@ -34,18 +37,25 @@
 </style>
 
 <script>
-import { mapActions } from 'vuex';
+// import maps of actions and getters from vuex
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'App',
   data() {
     return {};
   },
+  computed: {
+    // get the states from vuex about who is the logged in user(getUser) and if any user is even logged in (isUserAuth)
+    ...mapGetters(['getUser', 'isUserAuth']),
+  },
   mounted() {
+    // check the state of user - if any user is logged or not
     this.authAction();
   },
   methods: {
-    ...mapActions(['logOutAction']),
-    ...mapActions(['authAction']),
+    // using map of the actions from vuex - log out action to log out the user, and the action for authenticate state of user - in mounted lifecycle hook
+    ...mapActions(['logOutAction', 'authAction']),
+    // log out function for the user to log of - store the state to the vuex with help of log out action
     logOut() {
       this.logOutAction();
     },

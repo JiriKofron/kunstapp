@@ -37,22 +37,28 @@ const firebaseConfig = {
 // Initialize Firebase
 
 firebase.initializeApp(firebaseConfig);
-router.beforeEach((to, from, next) => {
-  const auth = getAuth();
-  if (to.matched.some((record) => record.meta.authRequired)) {
-    if (auth.currentUser) {
-      console.log('cicicicici');
-      next();
+// router guard to be sure, that the user is authenticated on the routes that requires authentication (with meta authRequired)
+const load = () => {
+  router.beforeEach((to, from, next) => {
+    const auth = getAuth();
+    if (to.matched.some((record) => record.meta.authRequired)) {
+      if (auth.currentUser) {
+        console.log(`Je příhlášen ${auth.currentUser.email}`);
+        next();
+      } else {
+        alert('Prosím přihlašte se pro zobrazení této stránky');
+        next({
+          path: '/',
+        });
+      }
     } else {
-      alert('You must be logged in to see this page');
-      next({
-        path: '/',
-      });
+      next();
     }
-  } else {
-    next();
-  }
-});
+  });
+};
+
+window.onload = load;
+
 // const analytics = getAnalytics(app);
 
 createApp(App)
