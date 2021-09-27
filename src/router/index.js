@@ -19,9 +19,39 @@ const routes = [
         /* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'
       );
     },
+    // meta: {
+    //   authRequired: true,
+    // },
+  },
+  {
+    path: '/customers',
+    name: 'Customers',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: function() {
+      return import(
+        /* webpackChunkName: "customers" */ '../views/Customers.vue'
+      );
+    },
     meta: {
       authRequired: true,
     },
+  },
+  {
+    path: '/customers/add',
+    name: 'ZakazniciAdd',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: function() {
+      return import(
+        /* webpackChunkName: "customers" */ '../components/ZakazniciAdd.vue'
+      );
+    },
+    // meta: {
+    //   authRequired: true,
+    // },
   },
   {
     path: '/about',

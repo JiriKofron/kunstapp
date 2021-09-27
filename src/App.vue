@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link> |
       <span v-if="isUserAuth"
         ><router-link to="/dashboard">Dashboard</router-link> |
+        <router-link to="/customers">Zákazníci</router-link> |
         <button @click="logOut">Log out</button>
         <p>{{ getUser.email }}</p>
       </span>

@@ -7,6 +7,7 @@ import store from './store';
 
 import firebase from 'firebase/compat/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 // import { getAnalytics } from 'firebase/analytics';
 
@@ -33,10 +34,11 @@ const firebaseConfig = {
 
   measurementId: 'G-W93JGHZ1DD',
 };
-
 // Initialize Firebase
-
 firebase.initializeApp(firebaseConfig);
+const db = getFirestore();
+console.log(db);
+
 // router guard to be sure, that the user is authenticated on the routes that requires authentication (with meta authRequired)
 const load = () => {
   router.beforeEach((to, from, next) => {
@@ -58,6 +60,8 @@ const load = () => {
 };
 
 window.onload = load;
+
+export default { db };
 
 // const analytics = getAnalytics(app);
 
