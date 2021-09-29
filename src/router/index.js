@@ -19,9 +19,9 @@ const routes = [
         /* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'
       );
     },
-    // meta: {
-    //   authRequired: true,
-    // },
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/customers',
@@ -49,9 +49,9 @@ const routes = [
         /* webpackChunkName: "customers" */ '../components/ZakazniciAdd.vue'
       );
     },
-    // meta: {
-    //   authRequired: true,
-    // },
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/about',

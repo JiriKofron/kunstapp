@@ -40,6 +40,9 @@
 <script>
 // import maps of actions and getters from vuex
 import { mapActions, mapGetters } from 'vuex';
+// eslint-disable-next-line no-unused-vars
+import { db } from './firebase.js';
+
 export default {
   name: 'App',
   data() {
@@ -52,6 +55,7 @@ export default {
   mounted() {
     // check the state of user - if any user is logged or not
     this.authAction();
+    console.log(this.$store.state.db);
   },
   methods: {
     // using map of the actions from vuex - log out action to log out the user, and the action for authenticate state of user - in mounted lifecycle hook

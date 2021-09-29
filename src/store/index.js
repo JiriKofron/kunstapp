@@ -1,30 +1,21 @@
 import { createStore } from 'vuex';
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-// - Nefunguje import firestore db z main.js !!!!!
 // eslint-disable-next-line no-unused-vars
-// import firebase from 'firebase/compat/app';
-// import db from './../main.js';
-
+import { db, fs } from './../firebase.js';
 import router from './../router';
-
-// console.log(db.collection('nabidky'));
-
-// Initialize Cloud Firestore through Firebase
-// eslint-disable-next-line no-unused-vars
 
 // setting the initial state of the user and error, so we can be sure that the user has to log in everytime for first visit
 const initialState = () => {
   return {
     user: null,
     error: null,
-    // db: db,
-    customers: [],
+    db,
+    zakaznici: [],
   };
 };
 
 export default createStore({
-  // state: initialState()
   state: initialState(),
   // mutation for changing state of the user - everytime the user is changed (log in, log of, etc the payload object is representing the new values - changing the initialState of the user, or previous state of the user)
   mutations: {
@@ -82,7 +73,6 @@ export default createStore({
     // eslint-disable-next-line no-unused-vars
     authAction({ commit }) {
       const auth = getAuth();
-      // eslint-disable-next-line no-unused-vars
       return auth.onAuthStateChanged((user) => {
         if (user) {
           // https://firebase.google.com/docs/reference/js/firebase.User
