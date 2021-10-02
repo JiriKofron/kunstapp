@@ -3,6 +3,8 @@ import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 // eslint-disable-next-line no-unused-vars
 import { db, fs } from './../firebase.js';
+import { collection, getDocs } from 'firebase/firestore';
+
 import router from './../router';
 
 // setting the initial state of the user and error, so we can be sure that the user has to log in everytime for first visit
@@ -22,6 +24,9 @@ export default createStore({
     setUser(state, payload) {
       state.user = payload;
     },
+    setCustomers(state, payload) {
+      state.zakaznici = payload;
+    },
   },
   // getters showing the actual state of the user
   getters: {
@@ -32,6 +37,9 @@ export default createStore({
     // checking is any user is logged in - !! - means the return can be only true or false
     isUserAuth(state) {
       return !!state.user;
+    },
+    zakaznici(state) {
+      return state.zakaznici;
     },
   },
   actions: {
@@ -69,8 +77,6 @@ export default createStore({
         });
     },
     // authentication action that commit the change everytime the user state is changed and store new details in vuex state
-
-    // eslint-disable-next-line no-unused-vars
     authAction({ commit }) {
       const auth = getAuth();
       return auth.onAuthStateChanged((user) => {
@@ -87,6 +93,17 @@ export default createStore({
           // User is signed out
           // ...
         }
+      });
+    },
+    // akce, která by měla vytáhnout všechny zákazníky z firebase databáze a musím vymyslet, jak je dostat do Vue komponenty Zakaznici - list
+    async getAllCostumersAction({ commit }) {
+      const querySnapshot = await getDocs(collection(db, 'zakaznici'));
+      // tady možná bude muset v parametru být "doc", smazal jsem a nahradil svým "zakaznik", abych se v tom lépe vyznal, ale možná to nebude fungovat
+      querySnapshot.forEach((zakaznik) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(zakaznik.id, ' => ', zakaznik.data());
+        // tohle jsem opsal ze zhora, ale těžko říct, jestli to bude fungovat?!
+        commit('setCustomers', zakaznik);
       });
     },
   },

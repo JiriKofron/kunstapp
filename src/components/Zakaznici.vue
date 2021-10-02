@@ -3,16 +3,15 @@
     <router-link to="/customers/add">
       <button>Nový zákazník</button>
     </router-link>
-    <ul>
-      <li>Zákazník 1</li>
-      <li>Zákazník 2</li>
-      <li>Zákazník 3</li>
-    </ul>
+    <ZakazniciList />
   </section>
 </template>
 <script>
+import ZakazniciList from './ZakazniciList.vue';
+
 export default {
   name: 'Zakaznici',
+  components: { ZakazniciList },
   data() {
     return {};
   },

@@ -5,7 +5,6 @@ import store from './store';
 
 import { auth } from './firebase.js';
 
-// Import the functions you need from the SDKs you need
 // eslint-disable-next-line no-unused-vars
 
 // router guard to be sure, that the user is authenticated on the routes that requires authentication (with meta authRequired)

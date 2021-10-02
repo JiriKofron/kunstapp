@@ -52,7 +52,7 @@ export default {
     // get the states from vuex about who is the logged in user(getUser) and if any user is even logged in (isUserAuth)
     ...mapGetters(['getUser', 'isUserAuth']),
   },
-  mounted() {
+  created() {
     // check the state of user - if any user is logged or not
     this.authAction();
     console.log(this.$store.state.db);
