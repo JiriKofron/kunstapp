@@ -13,7 +13,7 @@ const initialState = () => {
     user: null,
     error: null,
     db,
-    zakaznici: [],
+    customers: [],
   };
 };
 
@@ -25,7 +25,7 @@ export default createStore({
       state.user = payload;
     },
     setCustomers(state, payload) {
-      state.zakaznici = payload;
+      state.customers = payload;
     },
   },
   // getters showing the actual state of the user
@@ -38,8 +38,9 @@ export default createStore({
     isUserAuth(state) {
       return !!state.user;
     },
-    zakaznici(state) {
-      return state.zakaznici;
+    getCustomers(state) {
+      console.log('getter get customers spuštěn');
+      return state.customers;
     },
   },
   actions: {
@@ -96,14 +97,19 @@ export default createStore({
       });
     },
     // akce, která by měla vytáhnout všechny zákazníky z firebase databáze a musím vymyslet, jak je dostat do Vue komponenty Zakaznici - list
-    async getAllCostumersAction({ commit }) {
+    async getAllCustomersAction({ commit }) {
+      // Vymyslet, jak udělat, aby se při každé návštěve stránky "zákazníků" nedublovali záznamy v this.state.customers, ale aktualizovali se jen nové záznamy - pak můžu následující řádek dát pryč, takto je to myslím blbě, jelikož pokaždé nulovat state je asi blbost
+      this.state.customers = [];
       const querySnapshot = await getDocs(collection(db, 'zakaznici'));
-      // tady možná bude muset v parametru být "doc", smazal jsem a nahradil svým "zakaznik", abych se v tom lépe vyznal, ale možná to nebude fungovat
-      querySnapshot.forEach((zakaznik) => {
+      querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(zakaznik.id, ' => ', zakaznik.data());
-        // tohle jsem opsal ze zhora, ale těžko říct, jestli to bude fungovat?!
-        commit('setCustomers', zakaznik);
+        console.log(doc.id, ' => ', doc.data());
+        const customer = doc.data().customer;
+        customer.id = doc.id;
+        this.state.customers.push(customer);
+        const customers = this.state.customers;
+        // console.log(this.state.customers);
+        commit('setCustomers', customers);
       });
     },
   },
