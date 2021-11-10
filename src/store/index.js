@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 // eslint-disable-next-line no-unused-vars
 import { db, fs } from './../firebase.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, limit, query } from 'firebase/firestore';
 
 import router from './../router';
 
@@ -39,7 +39,7 @@ export default createStore({
       return !!state.user;
     },
     getCustomers(state) {
-      console.log('getter get customers spuštěn');
+      //console.log('getter get customers spuštěn');
       return state.customers;
     },
   },
@@ -96,11 +96,13 @@ export default createStore({
         }
       });
     },
-    // akce, která by měla vytáhnout všechny zákazníky z firebase databáze a musím vymyslet, jak je dostat do Vue komponenty Zakaznici - list
+
     async getAllCustomersAction({ commit }) {
       // Vymyslet, jak udělat, aby se při každé návštěve stránky "zákazníků" nedublovali záznamy v this.state.customers, ale aktualizovali se jen nové záznamy - pak můžu následující řádek dát pryč, takto je to myslím blbě, jelikož pokaždé nulovat state je asi blbost
       this.state.customers = [];
-      const querySnapshot = await getDocs(collection(db, 'zakaznici'));
+      // Tady omezuju počet načtených zákazníků na 25, aby mi to nenačítalo celou databázi najednou, řešil bych to listováním a abecedními filtry, jen to musím nastudovat.
+      const q = query(collection(db, 'zakaznici'), limit(25));
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, ' => ', doc.data());

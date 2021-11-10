@@ -87,6 +87,7 @@ export default {
       });
       console.log(addedCustomer);
       //empty the form
+      // bug to solve!!! When the customer is send, it is necessary to "restart" the form, so the new customer can be add directly. Right now, there is an error !!!!!
       this.customer = '';
     },
   },

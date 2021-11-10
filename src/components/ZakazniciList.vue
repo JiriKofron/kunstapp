@@ -1,56 +1,54 @@
 <template>
-  <section class="userList">
-    <ul class=" userList__tab">
-      <li class="userList__tab__description">
-        <div class="userList__tab__description__container">
-          <div class="userList__tab__description__field">Název společnosti</div>
-          <div class="userList__tab__description__field">Adresa</div>
-          <div class="userList__tab__description__field">Stát</div>
-        </div>
-      </li>
-      <li
-        class="userList__tab__row"
+  <section class="customerList">
+    <table class="customerList__table">
+      <tr class="customerList__table__headers">
+        <th>Id</th>
+        <th>Název společnosti</th>
+        <th>Adresa</th>
+        <th>Město</th>
+        <th>Stát</th>
+      </tr>
+      <tr
+        class="customerList__table__row"
         v-for="customer in getCustomers"
         :key="customer.id"
+        @click="showCustomerDetails()"
       >
-        <div class="userList__tab__row__container">
-          <span>{{ customer.company }}</span>
-          <span>{{ customer.address }}</span>
-          <span>{{ customer.city }}</span>
-          <span>{{ customer.state }}</span>
-        </div>
-      </li>
-    </ul>
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.company }}</td>
+        <td>{{ customer.address }}</td>
+        <td>{{ customer.city }}</td>
+        <td>{{ customer.country }}</td>
+      </tr>
+    </table>
   </section>
 </template>
 
 <style lang="scss" scoped>
-.userList {
-  &__tab {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    &__description {
-      width: 100%;
-      display: flex;
+.customerList {
+  // border: 1px solid red;
+  height: 60vh;
+  &__table {
+    width: 80%;
+    text-align: left;
 
-      &__field {
-        border: 1px solid red;
-      }
-      &__container {
-        justify-content: space-evenly;
-        width: 100%;
-        display: flex;
-      }
-    }
-    &__row {
+    &__row,
+    &__headers {
+      // border: 1px solid green;
       display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
       width: 100%;
-      &__container {
-        display: flex;
-      }
+    }
+
+    th {
+      width: 15rem;
+      font-family: Cinzel;
+      padding: 1rem 0;
+    }
+
+    td {
+      padding: 0.5rem 0;
+      width: 15rem;
+      font-family: WorkSans;
     }
   }
 }
@@ -68,6 +66,10 @@ export default {
     ...mapActions(['getAllCustomersAction']),
     getAllCustomers() {
       this.getAllCustomersAction();
+    },
+    //
+    showCustomerDetails() {
+      console.log('clicked table row');
     },
   },
   mounted() {

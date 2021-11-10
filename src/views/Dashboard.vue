@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard">
     <h1>Dashboard</h1>
     <Nabidky />
     <OP />
@@ -17,3 +17,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.dashboard {
+  background: $secondary-blue-bg;
+}
+</style>

@@ -16,7 +16,6 @@ router.beforeEach((to, from, next) => {
       console.log(`Je příhlášen ${auth.currentUser.email}`);
       next();
     } else {
-      alert('Prosím přihlašte se pro zobrazení této stránky');
       next({
         path: '/',
       });
